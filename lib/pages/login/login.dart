@@ -55,20 +55,9 @@ class LoginController extends State<Login> {
 
     try {
       final username = usernameController.text;
-      AuthenticationIdentifier identifier;
-      if (username.isEmail) {
-        identifier = AuthenticationThirdPartyIdentifier(
-          medium: 'email',
-          address: username,
-        );
-      } else if (username.isPhoneNumber) {
-        identifier = AuthenticationThirdPartyIdentifier(
-          medium: 'msisdn',
-          address: username,
-        );
-      } else {
-        identifier = AuthenticationUserIdentifier(user: username);
-      }
+      final AuthenticationIdentifier identifier =
+          AuthenticationUserIdentifier(user: username);
+
       final client = await matrix.getLoginClient();
       await client.login(
         LoginType.mLoginPassword,
