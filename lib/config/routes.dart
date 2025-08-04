@@ -19,6 +19,7 @@ import 'package:fluffychat/pages/device_settings/device_settings.dart';
 import 'package:fluffychat/pages/homeserver_picker/homeserver_picker.dart';
 import 'package:fluffychat/pages/invitation_selection/invitation_selection.dart';
 import 'package:fluffychat/pages/login/login.dart';
+import 'package:fluffychat/pages/register/phone_registration.dart';
 import 'package:fluffychat/pages/new_group/new_group.dart';
 import 'package:fluffychat/pages/new_private_chat/new_private_chat.dart';
 import 'package:fluffychat/pages/settings/settings.dart';
@@ -77,12 +78,22 @@ abstract class AppRoutes {
       routes: [
         GoRoute(
           path: 'login',
+          name: 'login',
           pageBuilder: (context, state) => defaultPageBuilder(
             context,
             state,
             Login(client: state.extra as Client),
           ),
           redirect: loggedInRedirect,
+        ),
+        GoRoute(
+          path: 'register',
+          name: 'register',
+          pageBuilder: (context, state) => defaultPageBuilder(
+            context,
+            state,
+            const PhoneRegistrationPage(),
+          ),
         ),
       ],
     ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluffychat/l10n/l10n.dart';
 import 'package:fluffychat/widgets/layouts/login_scaffold.dart';
 import 'package:fluffychat/widgets/matrix.dart';
+import 'package:go_router/go_router.dart';
 import 'login.dart';
 
 class LoginView extends StatelessWidget {
@@ -120,14 +121,36 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: TextButton(
-                    onPressed: controller.loading
-                        ? () {}
-                        : controller.passwordForgotten,
-                    style: TextButton.styleFrom(
-                      foregroundColor: theme.colorScheme.error,
-                    ),
-                    child: Text(L10n.of(context).passwordForgotten),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center, // 居中对齐
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween, // 两端对齐
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround, // 均匀分布
+                        children: [
+                          TextButton(
+                            onPressed: controller.loading
+                                ? () {}
+                                : controller.passwordForgotten,
+                            style: TextButton.styleFrom(
+                              foregroundColor: theme.colorScheme.error,
+                            ),
+                            child: Text(L10n.of(context).passwordForgotten),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              context.pushNamed('register');
+                            },
+                            style: TextButton.styleFrom(
+                              foregroundColor: theme.colorScheme.error,
+                            ),
+                            child: Text(L10n.of(context).register),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 16),
