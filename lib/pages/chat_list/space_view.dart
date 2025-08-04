@@ -206,6 +206,7 @@ class _SpaceViewState extends State<SpaceView> {
           );
         } else {
           roomId = await client.createGroupChat(
+            enableEncryption: false,
             groupName: names,
             preset: activeSpace.joinRules == JoinRules.public
                 ? CreateRoomPreset.publicChat
