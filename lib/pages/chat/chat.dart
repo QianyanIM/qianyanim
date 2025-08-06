@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -107,6 +110,8 @@ class ChatController extends State<ChatPageWithRoom>
   late final String readMarkerEventId;
 
   String get roomId => widget.room.id;
+
+  String targetLanguageCode = "";
 
   final AutoScrollController scrollController = AutoScrollController();
 
@@ -337,6 +342,7 @@ class ChatController extends State<ChatPageWithRoom>
     if (kIsWeb) {
       onFocusSub = html.window.onFocus.listen((_) => setReadMarker());
     }
+    _getTargetLanguageCode();
   }
 
   final Set<String> expandedEventIds = {};
@@ -456,6 +462,77 @@ class ChatController extends State<ChatPageWithRoom>
     return;
   }
 
+  void _getTargetLanguageCode() async {
+    await Matrix.of(context).client.roomsLoading;
+    await Matrix.of(context).client.accountDataLoading;
+
+    try {
+      final homeserver = Matrix.of(context).client.homeserver!;
+      final beartoken = Matrix.of(context).client.bearerToken!;
+
+      final url =
+          Uri.parse('$homeserver/_matrix/client/v3/rooms/${room.id}/translate');
+      debugPrint('_getTargetLanguageCode : $url');
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $beartoken'},
+      );
+
+      if (response.statusCode == 200) {
+        final result = jsonDecode(utf8.decode(response.bodyBytes));
+        setState(() {
+          targetLanguageCode = result["target_language_code"];
+        });
+      } else {
+        debugPrint('获取翻译目标失败: ${response.statusCode}');
+        _showSnackBar('网络异常，无法获取翻译目标');
+      }
+    } catch (e) {
+      debugPrint('获取翻译目标: $e');
+      _showSnackBar('网络异常，无法获取翻译目标');
+    }
+  }
+
+  Future<void> setTargetLanguageCode(String code) async {
+    setState(() {
+      targetLanguageCode = code;
+    });
+
+    try {
+      final homeserver = Matrix.of(context).client.homeserver!;
+      final beartoken = Matrix.of(context).client.bearerToken!;
+
+      final url = Uri.parse(
+        '$homeserver/_matrix/client/v3/rooms/${room.id}/translate/$code',
+      );
+      debugPrint('setTargetLanguageCode : $url');
+      final response = await http.post(
+        url,
+        headers: {'Authorization': 'Bearer $beartoken'},
+      );
+
+      if (response.statusCode == 200) {
+        _showSnackBar('设置翻译目标成功');
+      } else {
+        debugPrint('设置翻译目标失败: ${response.statusCode}');
+        _showSnackBar('网络异常，无法设置翻译目标');
+      }
+    } catch (e) {
+      debugPrint('设置翻译目标: $e');
+      _showSnackBar('网络异常，无法设置翻译目标');
+    }
+  }
+
+  // 显示提示信息
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 1),
+      ),
+    );
+  }
+
   String? scrollToEventIdMarker;
 
   @override
@@ -564,12 +641,26 @@ class ChatController extends State<ChatPageWithRoom>
     }
 
     // ignore: unawaited_futures
-    room.sendTextEvent(
-      sendController.text,
-      inReplyTo: replyEvent,
-      editEventId: editEvent?.eventId,
-      parseCommands: parseCommands,
-    );
+    if (!sendController.text.startsWith('/')) {
+      final event = <String, dynamic>{
+        'msgtype': MessageTypes.Text,
+        'body': sendController.text,
+        'translate_to': targetLanguageCode,
+      };
+      room.sendEvent(
+        event,
+        inReplyTo: replyEvent,
+        editEventId: editEvent?.eventId,
+      );
+    } else {
+      room.sendTextEvent(
+        sendController.text,
+        inReplyTo: replyEvent,
+        editEventId: editEvent?.eventId,
+        parseCommands: parseCommands,
+      );
+    }
+
     sendController.value = TextEditingValue(
       text: pendingText,
       selection: const TextSelection.collapsed(offset: 0),

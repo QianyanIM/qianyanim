@@ -29,6 +29,122 @@ import 'chat_input_row.dart';
 
 enum _EventContextAction { info, report }
 
+// 语言模型
+class Language {
+  final String name;
+  final String code;
+
+  Language({required this.name, required this.code});
+}
+
+// 支持的语言列表
+final List<Language> _languages = [
+  Language(name: "English", code: "en"),
+  Language(name: "简体中文", code: "zh"),
+  Language(name: "Spanish", code: "es"),
+  Language(name: "French", code: "fr"),
+  Language(name: "German", code: "de"),
+  Language(name: "Japanese", code: "ja"),
+  Language(name: "Korean", code: "ko"),
+  Language(name: "Russian", code: "ru"),
+];
+
+// 1. 定义语言名称映射表（语言代码 → 各语言对应的名称）
+final Map<String, Map<String, String>> languageNames = {
+  "zh": {
+    "zh": "中文",
+    "en": "英语",
+    "fr": "法语",
+    "ko": "韩语",
+    "ja": "日语",
+    "de": "德语",
+    "ru": "俄语",
+    "es": "西班牙语",
+  },
+  "en": {
+    "zh": "Chinese",
+    "en": "English",
+    "fr": "French",
+    "ko": "Korean",
+    "ja": "Japanese",
+    "de": "German",
+    "ru": "Russian",
+    "es": "Spanish",
+  },
+  "es": {
+    "zh": "chino",
+    "en": "inglés",
+    "fr": "francés",
+    "ko": "coreano",
+    "ja": "japonés",
+    "de": "alemán",
+    "ru": "ruso",
+    "es": "español",
+  },
+  "fr": {
+    "zh": "chinois",
+    "en": "anglais",
+    "fr": "français",
+    "ko": "coréen",
+    "ja": "japonais",
+    "de": "allemand",
+    "ru": "russe",
+    "es": "espagnol",
+  },
+  "de": {
+    "zh": "Chinesisch",
+    "en": "Englisch",
+    "fr": "Französisch",
+    "ko": "Koreanisch",
+    "ja": "Japanisch",
+    "de": "Deutsch",
+    "ru": "Russisch",
+    "es": "Spanisch",
+  },
+  "ja": {
+    "zh": "中国語",
+    "en": "英語",
+    "fr": "フランス語",
+    "ko": "韓国語",
+    "ja": "日本語",
+    "de": "ドイツ語",
+    "ru": "ロシア語",
+    "es": "スペイン語",
+  },
+  "ko": {
+    "zh": "중국어",
+    "en": "영어",
+    "fr": "프랑스어",
+    "ko": "한국어",
+    "ja": "일본어",
+    "de": "독일어",
+    "ru": "러시아어",
+    "es": "스페인어",
+  },
+  "ru": {
+    "zh": "китайский",
+    "en": "английский",
+    "fr": "французский",
+    "ko": "корейский",
+    "ja": "японский",
+    "de": "немецкий",
+    "ru": "русский",
+    "es": "испанский",
+  },
+};
+
+// 2. 获取目标语言中对应的语言名称
+String getLanguageNameInLocal(
+  String local,
+  String targetLanguageCode, // 目标语言代码（如当前语言 'zh'）
+) {
+  // 查找映射表，若不存在则返回语言代码本身作为 fallback
+  return languageNames[local]?[targetLanguageCode] ??
+      languageNames[local]?['en'] // 默认为英语名称
+      ??
+      local; // 最终 fallback 为语言代码
+}
+
 class ChatView extends StatelessWidget {
   final ChatController controller;
 
@@ -127,7 +243,34 @@ class ChatView extends StatelessWidget {
             icon: const Icon(Icons.call_outlined),
             tooltip: L10n.of(context).placeCall,
           ),
-        EncryptionButton(controller.room),
+        DropdownButton<Language>(
+          value: _languages.firstWhere(
+            (lang) => lang.code == controller.targetLanguageCode,
+            orElse: () => _languages[0],
+          ),
+          items: _languages.map((Language language) {
+            return DropdownMenuItem<Language>(
+              value: language,
+              child: Text(
+                getLanguageNameInLocal(
+                  Localizations.localeOf(context).languageCode,
+                  language.code,
+                ),
+              ),
+            );
+          }).toList(),
+          onChanged: (Language? value) async {
+            if (value != null) {
+              await controller.setTargetLanguageCode(value.code);
+            }
+          },
+          hint: const Text("Select target language"),
+          // underline: Container(
+          //   height: 1,
+          //   color: Colors.blue,
+          // ),
+        ),
+        // EncryptionButton(controller.room),
         ChatSettingsPopupMenu(controller.room, true),
       ];
     }
