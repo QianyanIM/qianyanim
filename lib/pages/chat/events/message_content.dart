@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:fluffychat/pages/chat/tts_player_wrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
@@ -265,7 +267,7 @@ class MessageContent extends StatelessWidget {
             final bigEmotes = event.onlyEmotes &&
                 event.numberEmotes > 0 &&
                 event.numberEmotes <= 3;
-            return Padding(
+            final paddingHtml = Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 16,
                 vertical: 8,
@@ -293,6 +295,33 @@ class MessageContent extends StatelessWidget {
                 ),
               ),
             );
+
+            if (event.formattedText != "") {
+              // <p>[zh] translated</p>
+
+              final pStart = event.formattedText.lastIndexOf('<p>[');
+              if (pStart == -1) return paddingHtml;
+              final codeEnd = event.formattedText.indexOf('] ', pStart);
+              if (codeEnd == -1) return paddingHtml;
+
+              final translatedCode =
+                  event.formattedText.substring(pStart + 4, codeEnd);
+
+              final pEnd = event.formattedText.indexOf('</p>', codeEnd + 2);
+              if (pEnd == -1) return paddingHtml;
+
+              final translatedBody =
+                  event.formattedText.substring(codeEnd + 2, pEnd);
+
+              return TtsPlayerWrapper(
+                text: translatedBody,
+                languageCode: translatedCode,
+                iconColor: Colors.green,
+                iconSize: 28,
+                child: paddingHtml,
+              );
+            }
+            return paddingHtml;
         }
       case EventTypes.CallInvite:
         return FutureBuilder<User?>(
