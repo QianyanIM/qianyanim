@@ -66,11 +66,13 @@ class LoginView extends StatelessWidget {
                     autofillHints:
                         controller.loading ? null : [AutofillHints.username],
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.account_box_outlined),
+                      // prefixIcon: const Icon(Icons.account_box_outlined),
+                      prefixIcon: const Icon(Icons.phone),
                       errorText: controller.usernameError,
                       errorStyle: const TextStyle(color: Colors.orange),
-                      hintText: '@username:domain',
-                      labelText: L10n.of(context).emailOrUsername,
+                      hintText: 'phonenumber',
+                      // labelText: L10n.of(context).emailOrUsername,
+                      labelText: L10n.of(context).phonenumber,
                     ),
                   ),
                 ),
