@@ -14,8 +14,8 @@ import '../../utils/platform_infos.dart';
 import 'login_view.dart';
 
 class Login extends StatefulWidget {
-  final Client client;
-  const Login({required this.client, super.key});
+  final String homeserver;
+  const Login({required this.homeserver, super.key});
 
   @override
   LoginController createState() => LoginController();
@@ -28,9 +28,21 @@ class LoginController extends State<Login> {
   String? passwordError;
   bool loading = false;
   bool showPassword = false;
+  Client? client;
 
   void toggleShowPassword() =>
       setState(() => showPassword = !loading && !showPassword);
+
+  @override
+  void initState() {
+    super.initState();
+    initClient();
+  }
+
+  void initClient() async {
+    client = await Matrix.of(context).getLoginClient();
+    await client!.checkHomeserver(Uri.parse(widget.homeserver));
+  }
 
   void login() async {
     final matrix = Matrix.of(context);
@@ -94,13 +106,13 @@ class LoginController extends State<Login> {
   void _checkWellKnown(String userId) async {
     if (mounted) setState(() => usernameError = null);
     if (!userId.isValidMatrixId) return;
-    final oldHomeserver = widget.client.homeserver;
+    final oldHomeserver = client!.homeserver;
     try {
       var newDomain = Uri.https(userId.domain!, '');
-      widget.client.homeserver = newDomain;
+      client!.homeserver = newDomain;
       DiscoveryInformation? wellKnownInformation;
       try {
-        wellKnownInformation = await widget.client.getWellknown();
+        wellKnownInformation = await client!.getWellknown();
         if (wellKnownInformation.mHomeserver.baseUrl.toString().isNotEmpty) {
           newDomain = wellKnownInformation.mHomeserver.baseUrl;
         }
@@ -108,10 +120,10 @@ class LoginController extends State<Login> {
         // do nothing, newDomain is already set to a reasonable fallback
       }
       if (newDomain != oldHomeserver) {
-        await widget.client.checkHomeserver(newDomain);
+        await client!.checkHomeserver(newDomain);
 
-        if (widget.client.homeserver == null) {
-          widget.client.homeserver = oldHomeserver;
+        if (client!.homeserver == null) {
+          client!.homeserver = oldHomeserver;
           // okay, the server we checked does not appear to be a matrix server
           Logs().v(
             '$newDomain is not running a homeserver, asking to use $oldHomeserver',
@@ -134,13 +146,13 @@ class LoginController extends State<Login> {
         usernameError = null;
         if (mounted) setState(() {});
       } else {
-        widget.client.homeserver = oldHomeserver;
+        client!.homeserver = oldHomeserver;
         if (mounted) {
           setState(() {});
         }
       }
     } catch (e) {
-      widget.client.homeserver = oldHomeserver;
+      client!.homeserver = oldHomeserver;
       usernameError = e.toLocalizedString(context);
       if (mounted) setState(() {});
     }
@@ -163,7 +175,7 @@ class LoginController extends State<Login> {
     final clientSecret = DateTime.now().millisecondsSinceEpoch.toString();
     final response = await showFutureLoadingDialog(
       context: context,
-      future: () => widget.client.requestTokenToResetPasswordEmail(
+      future: () => client!.requestTokenToResetPasswordEmail(
         clientSecret,
         input,
         sendAttempt++,
@@ -204,7 +216,7 @@ class LoginController extends State<Login> {
     };
     final success = await showFutureLoadingDialog(
       context: context,
-      future: () => widget.client.request(
+      future: () => client!.request(
         RequestType.POST,
         '/client/v3/account/password',
         data: data,

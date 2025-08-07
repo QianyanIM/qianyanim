@@ -5,6 +5,7 @@ import 'package:fluffychat/widgets/layouts/login_scaffold.dart';
 import 'package:fluffychat/widgets/matrix.dart';
 import 'package:go_router/go_router.dart';
 import 'login.dart';
+import 'package:fluffychat/config/app_config.dart';
 
 class LoginView extends StatelessWidget {
   final LoginController controller;
@@ -15,9 +16,11 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final homeserver = controller.widget.client.homeserver
-        .toString()
-        .replaceFirst('https://', '');
+    final homeserver =
+        controller.widget.homeserver.replaceFirst('https://', '');
+    // final homeserver = controller.widget.client.homeserver
+    //     .toString()
+    //     .replaceFirst('https://', '');
     final title = L10n.of(context).logInTo(homeserver);
     final titleParts = title.split(homeserver);
 
@@ -59,7 +62,7 @@ class LoginView extends StatelessWidget {
                     readOnly: controller.loading,
                     autocorrect: false,
                     autofocus: true,
-                    onChanged: controller.checkWellKnownWithCoolDown,
+                    // onChanged: controller.checkWellKnownWithCoolDown,
                     controller: controller.usernameController,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
