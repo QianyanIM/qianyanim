@@ -135,9 +135,9 @@ class LoginView extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceAround, // 均匀分布
                         children: [
                           TextButton(
-                            onPressed: controller.loading
-                                ? () {}
-                                : controller.passwordForgotten,
+                            onPressed: () {
+                              context.pushNamed('resetpassword');
+                            },
                             style: TextButton.styleFrom(
                               foregroundColor: theme.colorScheme.error,
                             ),

@@ -20,7 +20,8 @@ import 'package:fluffychat/pages/device_settings/device_settings.dart';
 import 'package:fluffychat/pages/homeserver_picker/homeserver_picker.dart';
 import 'package:fluffychat/pages/invitation_selection/invitation_selection.dart';
 import 'package:fluffychat/pages/login/login.dart';
-import 'package:fluffychat/pages/register/phone_registration.dart';
+import 'package:fluffychat/pages/account/phone_registration.dart';
+import 'package:fluffychat/pages/account/phone_resetpassword.dart';
 import 'package:fluffychat/pages/new_group/new_group.dart';
 import 'package:fluffychat/pages/new_private_chat/new_private_chat.dart';
 import 'package:fluffychat/pages/settings/settings.dart';
@@ -87,6 +88,15 @@ abstract class AppRoutes {
         context,
         state,
         const PhoneRegistrationPage(),
+      ),
+    ),
+    GoRoute(
+      path: '/resetpassword',
+      name: 'resetpassword',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        const PhoneResetPasswordPage(),
       ),
     ),
     GoRoute(
