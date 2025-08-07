@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:fluffychat/config/app_config.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -65,37 +66,28 @@ abstract class AppRoutes {
       redirect: (context, state) =>
           Matrix.of(context).widget.clients.any((client) => client.isLogged())
               ? '/rooms'
-              : '/home',
+              : '/login',
     ),
     GoRoute(
-      path: '/home',
+      path: '/login',
+      name: 'login',
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        const HomeserverPicker(addMultiAccount: false),
+        Login(
+          homeserver: AppConfig.defaultHomeserver,
+        ),
       ),
       redirect: loggedInRedirect,
-      routes: [
-        GoRoute(
-          path: 'login',
-          name: 'login',
-          pageBuilder: (context, state) => defaultPageBuilder(
-            context,
-            state,
-            Login(client: state.extra as Client),
-          ),
-          redirect: loggedInRedirect,
-        ),
-        GoRoute(
-          path: 'register',
-          name: 'register',
-          pageBuilder: (context, state) => defaultPageBuilder(
-            context,
-            state,
-            const PhoneRegistrationPage(),
-          ),
-        ),
-      ],
+    ),
+    GoRoute(
+      path: '/register',
+      name: 'register',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        const PhoneRegistrationPage(),
+      ),
     ),
     GoRoute(
       path: '/logs',
@@ -278,7 +270,9 @@ abstract class AppRoutes {
                           pageBuilder: (context, state) => defaultPageBuilder(
                             context,
                             state,
-                            Login(client: state.extra as Client),
+                            Login(
+                              homeserver: AppConfig.defaultHomeserver,
+                            ),
                           ),
                           redirect: loggedOutRedirect,
                         ),
