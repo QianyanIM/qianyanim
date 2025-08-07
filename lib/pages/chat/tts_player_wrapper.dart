@@ -67,7 +67,7 @@ class _TtsPlayerWrapperState extends State<TtsPlayerWrapper> {
   Widget build(BuildContext context) {
     // 默认图标
     final defaultPlayIcon = Icon(
-      Icons.play_arrow,
+      Icons.play_circle,
       size: widget.iconSize ?? 24,
       color: widget.iconColor ?? Theme.of(context).primaryColor,
     );
