@@ -23,7 +23,6 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final showChatBackupBanner = controller.showChatBackupBanner;
     final activeRoute =
         GoRouter.of(context).routeInformationProvider.value.uri.path;
     final accountManageUrl = Matrix.of(context)
@@ -165,21 +164,6 @@ class SettingsView extends StatelessWidget {
                         accountManageUrl,
                         mode: LaunchMode.inAppBrowserView,
                       ),
-                    ),
-                  Divider(color: theme.dividerColor),
-                  if (showChatBackupBanner == null)
-                    ListTile(
-                      leading: const Icon(Icons.backup_outlined),
-                      title: Text(L10n.of(context).chatBackup),
-                      trailing: const CircularProgressIndicator.adaptive(),
-                    )
-                  else
-                    SwitchListTile.adaptive(
-                      controlAffinity: ListTileControlAffinity.trailing,
-                      value: controller.showChatBackupBanner == false,
-                      secondary: const Icon(Icons.backup_outlined),
-                      title: Text(L10n.of(context).chatBackup),
-                      onChanged: controller.firstRunBootstrapAction,
                     ),
                   Divider(
                     color: theme.dividerColor,
