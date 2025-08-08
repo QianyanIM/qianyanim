@@ -297,21 +297,19 @@ class MessageContent extends StatelessWidget {
             );
 
             if (event.formattedText != "") {
-              // <p>[zh] translated</p>
+              // <code>zh</code>translated
 
-              final pStart = event.formattedText.lastIndexOf('<p>[');
+              final pStart = event.formattedText.lastIndexOf('<code>');
               if (pStart == -1) return paddingHtml;
-              final codeEnd = event.formattedText.indexOf('] ', pStart);
+              final codeEnd = event.formattedText.indexOf('</code>', pStart);
               if (codeEnd == -1) return paddingHtml;
 
               final translatedCode =
-                  event.formattedText.substring(pStart + 4, codeEnd);
+                  event.formattedText.substring(pStart + 6, codeEnd);
 
-              final pEnd = event.formattedText.indexOf('</p>', codeEnd + 2);
-              if (pEnd == -1) return paddingHtml;
-
-              final translatedBody =
-                  event.formattedText.substring(codeEnd + 2, pEnd);
+              final translatedBody = event.formattedText.substring(
+                codeEnd + 7,
+              );
 
               return TtsPlayerWrapper(
                 text: translatedBody,
