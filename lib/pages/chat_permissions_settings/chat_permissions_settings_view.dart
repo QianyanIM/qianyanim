@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import 'package:matrix/matrix.dart';
@@ -119,7 +120,12 @@ class ChatPermissionsSettingsView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    for (final entry in eventsPowerLevels.entries)
+                    // Modify(lqm) hide cryption related options
+                    // for (final entry in eventsPowerLevels.entries)
+                    for (final entry
+                        in eventsPowerLevels.entries.whereNot((entry) {
+                      return entry.key.contains('cryption');
+                    }))
                       PermissionsListTile(
                         permissionKey: entry.key,
                         category: 'events',
