@@ -129,7 +129,7 @@ class HtmlMessage extends StatelessWidget {
             onlyElements.indexOf(nodes[i] as dom.Element) <
                 onlyElements.length - 1) ...[
           if (blockHtmlTags.contains((nodes[i] as dom.Element).localName))
-            const TextSpan(text: '\n\n'),
+            const TextSpan(text: '\n'),
           if (fullLineHtmlTag.contains((nodes[i] as dom.Element).localName))
             const TextSpan(text: '\n'),
         ],
