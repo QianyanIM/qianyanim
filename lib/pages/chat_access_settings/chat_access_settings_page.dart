@@ -45,7 +45,12 @@ class ChatAccessSettingsPageView extends StatelessWidget {
                     ),
                   ),
                 ),
-                for (final historyVisibility in HistoryVisibility.values)
+                // Modify(lqm) hide world_readable
+                // for (final historyVisibility in HistoryVisibility.values)
+                for (final historyVisibility
+                    in HistoryVisibility.values.where((visibility) {
+                  return visibility.text != 'world_readable';
+                }))
                   RadioListTile<HistoryVisibility>.adaptive(
                     title: Text(
                       historyVisibility
@@ -59,28 +64,29 @@ class ChatAccessSettingsPageView extends StatelessWidget {
                         : controller.setHistoryVisibility,
                   ),
                 Divider(color: theme.dividerColor),
-                ListTile(
-                  title: Text(
-                    L10n.of(context).whoIsAllowedToJoinThisGroup,
-                    style: TextStyle(
-                      color: theme.colorScheme.secondary,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                for (final joinRule in controller.availableJoinRules)
-                  if (joinRule != JoinRules.private)
-                    RadioListTile<JoinRules>.adaptive(
-                      title: Text(
-                        joinRule.localizedString(L10n.of(context)),
-                      ),
-                      value: joinRule,
-                      groupValue: room.joinRules,
-                      onChanged: controller.joinRulesLoading ||
-                              !room.canChangeJoinRules
-                          ? null
-                          : controller.setJoinRule,
-                    ),
+                // Modify(lqm): remove whoIsAllowedToJoinThisGroup
+                // ListTile(
+                //   title: Text(
+                //     L10n.of(context).whoIsAllowedToJoinThisGroup,
+                //     style: TextStyle(
+                //       color: theme.colorScheme.secondary,
+                //       fontWeight: FontWeight.bold,
+                //     ),
+                //   ),
+                // ),
+                // for (final joinRule in controller.availableJoinRules)
+                //   if (joinRule != JoinRules.private)
+                //     RadioListTile<JoinRules>.adaptive(
+                //       title: Text(
+                //         joinRule.localizedString(L10n.of(context)),
+                //       ),
+                //       value: joinRule,
+                //       groupValue: room.joinRules,
+                //       onChanged: controller.joinRulesLoading ||
+                //               !room.canChangeJoinRules
+                //           ? null
+                //           : controller.setJoinRule,
+                //     ),
                 Divider(color: theme.dividerColor),
                 if ({JoinRules.public, JoinRules.knock}
                     .contains(room.joinRules)) ...[
