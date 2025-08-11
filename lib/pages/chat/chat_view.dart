@@ -244,10 +244,14 @@ class ChatView extends StatelessWidget {
             tooltip: L10n.of(context).placeCall,
           ),
         DropdownButton<Language>(
-          value: _languages.firstWhere(
-            (lang) => lang.code == controller.targetLanguageCode,
-            orElse: () => _languages[0],
-          ),
+          alignment: AlignmentDirectional.center,
+          isDense: true, // 启用紧凑模式（减少垂直方向空白）
+          icon: const Icon(Icons.translate_sharp),
+          value: controller.targetLanguageCode != ""
+              ? _languages.firstWhere(
+                  (lang) => lang.code == controller.targetLanguageCode,
+                )
+              : null,
           items: _languages.map((Language language) {
             return DropdownMenuItem<Language>(
               value: language,
@@ -264,7 +268,7 @@ class ChatView extends StatelessWidget {
               await controller.setTargetLanguageCode(value.code);
             }
           },
-          hint: const Text("Select target language"),
+          hint: Text(L10n.of(context).setTranslator),
           // underline: Container(
           //   height: 1,
           //   color: Colors.blue,
