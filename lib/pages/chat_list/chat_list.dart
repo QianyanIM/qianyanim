@@ -167,10 +167,13 @@ class ChatListController extends State<ChatList>
   }
 
   List<Room> get filteredRooms => Matrix.of(context)
-      .client
-      .rooms
-      .where(getRoomFilterByActiveFilter(activeFilter))
-      .toList();
+          .client
+          .rooms
+          .where(getRoomFilterByActiveFilter(activeFilter))
+          // Modify(lqm) hide spaces
+          .where((Room room) {
+        return !room.isSpace;
+      }).toList();
 
   bool isSearchMode = false;
   Future<QueryPublicRoomsResponse>? publicRoomsResponse;

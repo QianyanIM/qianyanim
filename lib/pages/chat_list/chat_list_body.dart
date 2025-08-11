@@ -81,16 +81,6 @@ class ChatListViewBody extends StatelessWidget {
                   [
                     if (controller.isSearchMode) ...[
                       SearchTitle(
-                        title: L10n.of(context).publicRooms,
-                        icon: const Icon(Icons.explore_outlined),
-                      ),
-                      PublicRoomsHorizontalList(publicRooms: publicRooms),
-                      SearchTitle(
-                        title: L10n.of(context).publicSpaces,
-                        icon: const Icon(Icons.workspaces_outlined),
-                      ),
-                      PublicRoomsHorizontalList(publicRooms: publicSpaces),
-                      SearchTitle(
                         title: L10n.of(context).users,
                         icon: const Icon(Icons.group_outlined),
                       ),
@@ -164,10 +154,11 @@ class ChatListViewBody extends StatelessWidget {
                               ActiveFilter.allChats,
                             ActiveFilter.groups,
                             ActiveFilter.unread,
-                            if (spaceDelegateCandidates.isNotEmpty &&
-                                !AppConfig.displayNavigationRail &&
-                                !FluffyThemes.isColumnMode(context))
-                              ActiveFilter.spaces,
+                            // Modify(lqm) hide spaces
+                            // if (spaceDelegateCandidates.isNotEmpty &&
+                            //     !AppConfig.displayNavigationRail &&
+                            //     !FluffyThemes.isColumnMode(context))
+                            //   ActiveFilter.spaces,
                           ]
                               .map(
                                 (filter) => Padding(
