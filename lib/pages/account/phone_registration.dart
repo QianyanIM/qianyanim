@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:async';
-import 'package:fluffychat/widgets/matrix.dart';
 
 class PhoneRegistrationPage extends StatefulWidget {
-  const PhoneRegistrationPage({super.key});
+  final String homeserver;
+  const PhoneRegistrationPage({required this.homeserver, super.key});
 
   @override
   State<PhoneRegistrationPage> createState() => _PhoneRegistrationPageState();
@@ -41,7 +40,7 @@ class _PhoneRegistrationPageState extends State<PhoneRegistrationPage> {
   // 加载图片验证码
   Future<void> _loadImageCaptcha() async {
     try {
-      final homeserver = Matrix.of(context).client.homeserver!;
+      final homeserver = widget.homeserver;
       final url = Uri.parse('$homeserver/_matrix/client/captcha');
       debugPrint('加载图片验证码url: $url');
       final response = await http.get(url);
@@ -103,7 +102,7 @@ class _PhoneRegistrationPageState extends State<PhoneRegistrationPage> {
     });
 
     try {
-      final homeserver = Matrix.of(context).client.homeserver!;
+      final homeserver = widget.homeserver;
       final url =
           Uri.parse('$homeserver/_matrix/client/send-verification-code');
       debugPrint('获取手机验证码url: $url');
@@ -171,8 +170,7 @@ class _PhoneRegistrationPageState extends State<PhoneRegistrationPage> {
       });
 
       try {
-        // 替换为实际的注册API地址
-        final homeserver = Matrix.of(context).client.homeserver!;
+        final homeserver = widget.homeserver;
         final url = Uri.parse('$homeserver/_matrix/client/v3/register');
         debugPrint('注册url: $url');
 

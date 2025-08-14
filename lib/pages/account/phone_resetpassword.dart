@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:typed_data';
 import 'dart:async';
-import 'package:fluffychat/widgets/matrix.dart';
 
 class PhoneResetPasswordPage extends StatefulWidget {
-  const PhoneResetPasswordPage({super.key});
+  final String homeserver;
+  const PhoneResetPasswordPage({required this.homeserver, super.key});
 
   @override
   State<PhoneResetPasswordPage> createState() => _PhoneResetPasswordPageState();
@@ -41,7 +40,7 @@ class _PhoneResetPasswordPageState extends State<PhoneResetPasswordPage> {
   // 加载图片验证码
   Future<void> _loadImageCaptcha() async {
     try {
-      final homeserver = Matrix.of(context).client.homeserver!;
+      final homeserver = widget.homeserver;
       final url = Uri.parse('$homeserver/_matrix/client/captcha');
       debugPrint('加载图片验证码url: $url');
       final response = await http.get(url);
@@ -103,7 +102,7 @@ class _PhoneResetPasswordPageState extends State<PhoneResetPasswordPage> {
     });
 
     try {
-      final homeserver = Matrix.of(context).client.homeserver!;
+      final homeserver = widget.homeserver;
       final url =
           Uri.parse('$homeserver/_matrix/client/send-verification-code');
       debugPrint('获取手机验证码url: $url');
@@ -172,7 +171,7 @@ class _PhoneResetPasswordPageState extends State<PhoneResetPasswordPage> {
 
       try {
         // 替换为实际的重置密码API地址
-        final homeserver = Matrix.of(context).client.homeserver!;
+        final homeserver = widget.homeserver;
         final url = Uri.parse('$homeserver/_matrix/client/v3/reset-password');
         debugPrint('reset-password url: $url');
 

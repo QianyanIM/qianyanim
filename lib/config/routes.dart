@@ -87,7 +87,9 @@ abstract class AppRoutes {
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        const PhoneRegistrationPage(),
+        PhoneRegistrationPage(
+          homeserver: AppConfig.defaultHomeserver,
+        ),
       ),
     ),
     GoRoute(
@@ -96,7 +98,9 @@ abstract class AppRoutes {
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        const PhoneResetPasswordPage(),
+        PhoneResetPasswordPage(
+          homeserver: AppConfig.defaultHomeserver,
+        ),
       ),
     ),
     GoRoute(
