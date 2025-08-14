@@ -335,8 +335,8 @@ class _PhoneRegistrationPageState extends State<PhoneRegistrationPage> {
                     const SizedBox(width: 10),
                     // 图片验证码显示区域
                     SizedBox(
-                      width: 120,
-                      height: 60,
+                      width: 160,
+                      height: 50,
                       child: _buildCaptchaImage(),
                     ),
                   ],
@@ -405,6 +405,7 @@ class _PhoneRegistrationPageState extends State<PhoneRegistrationPage> {
                                     : '获取验证码',
                                 style: const TextStyle(
                                   fontSize: 14,
+                                  color: Colors.white,
                                 ),
                               ),
                       ),
