@@ -453,7 +453,7 @@ class _PhoneRegistrationPageState extends State<PhoneRegistrationPage> {
                 // 注册按钮
                 SizedBox(
                   width: double.infinity,
-                  height: 50,
+                  height: 60,
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _submitRegistration,
                     style: ElevatedButton.styleFrom(

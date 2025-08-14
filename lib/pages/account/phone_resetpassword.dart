@@ -254,6 +254,27 @@ class _PhoneResetPasswordPageState extends State<PhoneResetPasswordPage> {
             key: _formKey,
             child: Column(
               children: [
+                // 标题和副标题
+                const Column(
+                  children: [
+                    Text(
+                      '重置密码',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      '使用手机号/短信验证，重置密码',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40),
                 // 手机号输入框
                 TextFormField(
                   controller: _phoneController,
@@ -432,7 +453,7 @@ class _PhoneResetPasswordPageState extends State<PhoneResetPasswordPage> {
                 // 重置密码按钮
                 SizedBox(
                   width: double.infinity,
-                  height: 50,
+                  height: 60,
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _submitResetPassword,
                     style: ElevatedButton.styleFrom(
