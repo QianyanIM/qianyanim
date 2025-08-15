@@ -375,56 +375,103 @@ class Message extends StatelessWidget {
                                               left: 8.0,
                                               bottom: 4,
                                             ),
-                                            child: ownMessage ||
-                                                    event.room.isDirectChat
-                                                ? const SizedBox(height: 12)
-                                                : FutureBuilder<User?>(
-                                                    future:
-                                                        event.fetchSenderUser(),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      final displayname = snapshot
-                                                              .data
-                                                              ?.calcDisplayname() ??
-                                                          event
-                                                              .senderFromMemoryOrFallback
-                                                              .calcDisplayname();
-                                                      return Text(
-                                                        displayname,
-                                                        style: TextStyle(
-                                                          fontSize: 11,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: (theme.brightness ==
-                                                                  Brightness
-                                                                      .light
-                                                              ? displayname
-                                                                  .color
-                                                              : displayname
-                                                                  .lightColorText),
-                                                          shadows:
-                                                              !wallpaperMode
-                                                                  ? null
-                                                                  : [
-                                                                      const Shadow(
-                                                                        offset:
-                                                                            Offset(
-                                                                          0.0,
-                                                                          0.0,
-                                                                        ),
-                                                                        blurRadius:
-                                                                            3,
-                                                                        color: Colors
-                                                                            .black,
-                                                                      ),
-                                                                    ],
-                                                        ),
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      );
-                                                    },
-                                                  ),
+                                            // Modified(lqm) show each user's dispalyname
+                                            child: Align(
+                                              alignment: ownMessage
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
+                                              child: FutureBuilder<User?>(
+                                                future: event.fetchSenderUser(),
+                                                builder: (context, snapshot) {
+                                                  final displayname = snapshot
+                                                          .data
+                                                          ?.calcDisplayname() ??
+                                                      event
+                                                          .senderFromMemoryOrFallback
+                                                          .calcDisplayname();
+                                                  return Text(
+                                                    // textAlign: ownMessage
+                                                    //     ? TextAlign.right
+                                                    //     : TextAlign.left,
+                                                    displayname,
+                                                    style: TextStyle(
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: (theme
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? displayname.color
+                                                          : displayname
+                                                              .lightColorText),
+                                                      shadows: !wallpaperMode
+                                                          ? null
+                                                          : [
+                                                              const Shadow(
+                                                                offset: Offset(
+                                                                  0.0,
+                                                                  0.0,
+                                                                ),
+                                                                blurRadius: 3,
+                                                                color: Colors
+                                                                    .black,
+                                                              ),
+                                                            ],
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                            // child:
+                                            //     ownMessage ||
+                                            //             event.room.isDirectChat
+                                            //         ? const SizedBox(height: 12)
+                                            //         :
+                                            //     FutureBuilder<User?>(
+                                            //   future: event.fetchSenderUser(),
+                                            //   builder: (context, snapshot) {
+                                            //     final displayname = snapshot
+                                            //             .data
+                                            //             ?.calcDisplayname() ??
+                                            //         event
+                                            //             .senderFromMemoryOrFallback
+                                            //             .calcDisplayname();
+                                            //     return Text(
+                                            //       // textAlign: ownMessage
+                                            //       //     ? TextAlign.right
+                                            //       //     : TextAlign.left,
+                                            //       displayname,
+                                            //       style: TextStyle(
+                                            //         fontSize: 11,
+                                            //         fontWeight: FontWeight.bold,
+                                            //         color: (theme.brightness ==
+                                            //                 Brightness.light
+                                            //             ? displayname.color
+                                            //             : displayname
+                                            //                 .lightColorText),
+                                            //         shadows: !wallpaperMode
+                                            //             ? null
+                                            //             : [
+                                            //                 const Shadow(
+                                            //                   offset: Offset(
+                                            //                     0.0,
+                                            //                     0.0,
+                                            //                   ),
+                                            //                   blurRadius: 3,
+                                            //                   color:
+                                            //                       Colors.black,
+                                            //                 ),
+                                            //               ],
+                                            //       ),
+                                            //       maxLines: 1,
+                                            //       overflow:
+                                            //           TextOverflow.ellipsis,
+                                            //     );
+                                            //   },
+                                            // ),
                                           ),
                                         Container(
                                           alignment: alignment,
