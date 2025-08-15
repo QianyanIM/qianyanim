@@ -57,6 +57,7 @@ dependencies:
   intl: any
   just_audio: ^0.10.4
   latlong2: ^0.9.1
+  learning_language: ^0.0.4
   linkify: ^5.0.0
   matrix: ^1.1.0
   mime: ^2.0.0
@@ -91,6 +92,7 @@ dependencies:
   webrtc_interface: ^1.0.13
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1  # 版本号可根据最新版调整
   flutter_lints: ^3.0.0
   flutter_native_splash: ^2.0.3+1
   flutter_test:
@@ -109,7 +111,7 @@ import_sorter:
 flutter_native_splash:
   color: "#ffffff"
   color_dark: "#000000"
-  image: "assets/info-logo.png"
+  image: "assets/qianyan.info-logo.png"
 
 flutter:
   generate: true
@@ -120,9 +122,9 @@ flutter:
     - assets/vodozemac/
 
 msix_config:
-  display_name: FluffyChat
-  publisher_display_name: FluffyChat
-  publisher: CN=FluffyChat, O=Head of bad integration tests, L=Matrix, S=Internet, C=EU
+  display_name: Qianyan
+  publisher_display_name: Qianyan
+  publisher: CN=Qianyan, O=Head of bad integration tests, L=Matrix, S=Internet, C=EU
   identity_name: chat.fluffy.fluffychat
   logo_path: assets\logo.png
   capabilities: internetClient, location, microphone, webcam
@@ -146,3 +148,8 @@ dependency_overrides:
       url: https://github.com/ThexXTURBOXx/flutter_web_auth_2.git
       ref: 3.x-without-v1
       path: flutter_web_auth_2
+
+flutter_icons:
+  android: "launcher_icon"  # Android 图标名称（可选）
+  ios: true                 # 是否生成 iOS 图标
+  image_path: "assets/icon/icon.png"  # 原始图标路径（建议1024x1024像素）

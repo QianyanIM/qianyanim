@@ -560,6 +560,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  flutter_launcher_icons:
+    dependency: "direct dev"
+    description:
+      name: flutter_launcher_icons
+      sha256: "526faf84284b86a4cb36d20a5e45147747b7563d921373d4ee0559c54fcdbcea"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.1"
   flutter_linkify:
     dependency: "direct main"
     description:
@@ -1124,6 +1132,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  learning_language:
+    dependency: "direct main"
+    description:
+      name: learning_language
+      sha256: "0410dbec6468d1882ad4dc460db243ce837ddb1d0bf269261451b86339496177"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   license_checker:
     dependency: "direct dev"
     description:

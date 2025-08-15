@@ -46,6 +46,8 @@ import '../../utils/account_bundles.dart';
 import '../../utils/localized_exception_extension.dart';
 import 'send_file_dialog.dart';
 import 'send_location_dialog.dart';
+import 'language_detect_ios.dart'
+    if (dart.library.js) 'language_detect_web.dart';
 
 class ChatPage extends StatelessWidget {
   final String roomId;
@@ -642,10 +644,13 @@ class ChatController extends State<ChatPageWithRoom>
 
     // ignore: unawaited_futures
     if (!sendController.text.startsWith('/')) {
+      final sourceLanguageCode =
+          await getLanguageDetector().detect(sendController.text);
       final event = <String, dynamic>{
         'msgtype': MessageTypes.Text,
         'body': sendController.text,
         'translate_to': targetLanguageCode,
+        'translate_from': sourceLanguageCode,
       };
       room.sendEvent(
         event,
