@@ -36,10 +36,10 @@ class LoginView extends StatelessWidget {
             children: [
               TextSpan(text: titleParts.first),
               // Modified(lqm)
-              // TextSpan(
-              //   text: homeserver,
-              //   style: const TextStyle(fontWeight: FontWeight.bold),
-              // ),
+              const TextSpan(
+                text: '',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               TextSpan(text: titleParts.last),
             ],
           ),
@@ -66,7 +66,7 @@ class LoginView extends StatelessWidget {
                     // onChanged: controller.checkWellKnownWithCoolDown,
                     controller: controller.usernameController,
                     textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.phone,
                     autofillHints:
                         controller.loading ? null : [AutofillHints.username],
                     decoration: InputDecoration(

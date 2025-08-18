@@ -85,51 +85,52 @@ class SettingsSecurityView extends StatelessWidget {
                     onTap: () =>
                         context.go('/rooms/settings/security/ignorelist'),
                   ),
-                  if (Matrix.of(context).client.encryption != null) ...{
-                    if (PlatformInfos.isMobile)
-                      ListTile(
-                        trailing: const Icon(Icons.chevron_right_outlined),
-                        title: Text(L10n.of(context).appLock),
-                        subtitle: Text(L10n.of(context).appLockDescription),
-                        onTap: controller.setAppLockAction,
-                      ),
-                  },
-                  Divider(color: theme.dividerColor),
-                  ListTile(
-                    title: Text(
-                      L10n.of(context).shareKeysWith,
-                      style: TextStyle(
-                        color: theme.colorScheme.secondary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(L10n.of(context).shareKeysWithDescription),
-                  ),
-                  ListTile(
-                    title: Material(
-                      borderRadius:
-                          BorderRadius.circular(AppConfig.borderRadius / 2),
-                      color: theme.colorScheme.onInverseSurface,
-                      child: DropdownButton<ShareKeysWith>(
-                        isExpanded: true,
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        borderRadius:
-                            BorderRadius.circular(AppConfig.borderRadius / 2),
-                        underline: const SizedBox.shrink(),
-                        value: Matrix.of(context).client.shareKeysWith,
-                        items: ShareKeysWith.values
-                            .map(
-                              (share) => DropdownMenuItem(
-                                value: share,
-                                child: Text(share.localized(L10n.of(context))),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: controller.changeShareKeysWith,
-                      ),
-                    ),
-                  ),
-                  Divider(color: theme.dividerColor),
+                  // Modified(lqm)
+                  // if (Matrix.of(context).client.encryption != null) ...{
+                  //   if (PlatformInfos.isMobile)
+                  //     ListTile(
+                  //       trailing: const Icon(Icons.chevron_right_outlined),
+                  //       title: Text(L10n.of(context).appLock),
+                  //       subtitle: Text(L10n.of(context).appLockDescription),
+                  //       onTap: controller.setAppLockAction,
+                  //     ),
+                  // },
+                  // Divider(color: theme.dividerColor),
+                  // ListTile(
+                  //   title: Text(
+                  //     L10n.of(context).shareKeysWith,
+                  //     style: TextStyle(
+                  //       color: theme.colorScheme.secondary,
+                  //       fontWeight: FontWeight.bold,
+                  //     ),
+                  //   ),
+                  //   subtitle: Text(L10n.of(context).shareKeysWithDescription),
+                  // ),
+                  // ListTile(
+                  //   title: Material(
+                  //     borderRadius:
+                  //         BorderRadius.circular(AppConfig.borderRadius / 2),
+                  //     color: theme.colorScheme.onInverseSurface,
+                  //     child: DropdownButton<ShareKeysWith>(
+                  //       isExpanded: true,
+                  //       padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  //       borderRadius:
+                  //           BorderRadius.circular(AppConfig.borderRadius / 2),
+                  //       underline: const SizedBox.shrink(),
+                  //       value: Matrix.of(context).client.shareKeysWith,
+                  //       items: ShareKeysWith.values
+                  //           .map(
+                  //             (share) => DropdownMenuItem(
+                  //               value: share,
+                  //               child: Text(share.localized(L10n.of(context))),
+                  //             ),
+                  //           )
+                  //           .toList(),
+                  //       onChanged: controller.changeShareKeysWith,
+                  //     ),
+                  //   ),
+                  // ),
+                  // Divider(color: theme.dividerColor),
                   ListTile(
                     title: Text(
                       L10n.of(context).account,
@@ -139,14 +140,14 @@ class SettingsSecurityView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ListTile(
-                    title: Text(L10n.of(context).yourPublicKey),
-                    leading: const Icon(Icons.vpn_key_outlined),
-                    subtitle: SelectableText(
-                      Matrix.of(context).client.fingerprintKey.beautified,
-                      style: const TextStyle(fontFamily: 'RobotoMono'),
-                    ),
-                  ),
+                  // ListTile(
+                  //   title: Text(L10n.of(context).yourPublicKey),
+                  //   leading: const Icon(Icons.vpn_key_outlined),
+                  //   subtitle: SelectableText(
+                  //     Matrix.of(context).client.fingerprintKey.beautified,
+                  //     style: const TextStyle(fontFamily: 'RobotoMono'),
+                  //   ),
+                  // ),
                   if (capabilities?.mChangePassword?.enabled != false ||
                       error != null)
                     ListTile(
@@ -156,16 +157,16 @@ class SettingsSecurityView extends StatelessWidget {
                       onTap: () =>
                           context.go('/rooms/settings/security/password'),
                     ),
-                  ListTile(
-                    iconColor: Colors.orange,
-                    leading: const Icon(Icons.delete_sweep_outlined),
-                    title: Text(
-                      L10n.of(context).dehydrate,
-                      style: const TextStyle(color: Colors.orange),
-                    ),
-                    onTap: controller.dehydrateAction,
-                  ),
-                  Divider(color: theme.dividerColor),
+                  // ListTile(
+                  //   iconColor: Colors.orange,
+                  //   leading: const Icon(Icons.delete_sweep_outlined),
+                  //   title: Text(
+                  //     L10n.of(context).dehydrate,
+                  //     style: const TextStyle(color: Colors.orange),
+                  //   ),
+                  //   onTap: controller.dehydrateAction,
+                  // ),
+                  // Divider(color: theme.dividerColor),
                   ListTile(
                     iconColor: Colors.red,
                     leading: const Icon(Icons.delete_outlined),

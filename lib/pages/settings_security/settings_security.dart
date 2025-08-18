@@ -60,21 +60,22 @@ class SettingsSecurityController extends State<SettingsSecurity> {
         OkCancelResult.cancel) {
       return;
     }
-    final supposedMxid = Matrix.of(context).client.userID!;
-    final mxid = await showTextInputDialog(
-      useRootNavigator: false,
-      context: context,
-      title: L10n.of(context).confirmMatrixId,
-      validator: (text) => text == supposedMxid
-          ? null
-          : L10n.of(context).supposedMxid(supposedMxid),
-      isDestructive: true,
-      okLabel: L10n.of(context).delete,
-      cancelLabel: L10n.of(context).cancel,
-    );
-    if (mxid == null || mxid.isEmpty || mxid != supposedMxid) {
-      return;
-    }
+    // Modified(lqm)
+    // final supposedMxid = Matrix.of(context).client.userID!;
+    // final mxid = await showTextInputDialog(
+    //   useRootNavigator: false,
+    //   context: context,
+    //   title: L10n.of(context).confirmMatrixId,
+    //   validator: (text) => text == supposedMxid
+    //       ? null
+    //       : L10n.of(context).supposedMxid(supposedMxid),
+    //   isDestructive: true,
+    //   okLabel: L10n.of(context).delete,
+    //   cancelLabel: L10n.of(context).cancel,
+    // );
+    // if (mxid == null || mxid.isEmpty || mxid != supposedMxid) {
+    //   return;
+    // }
     final input = await showTextInputDialog(
       useRootNavigator: false,
       context: context,

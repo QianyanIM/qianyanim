@@ -82,12 +82,13 @@ abstract class PlatformInfos {
           },
         ),
       ],
-      applicationIcon: Image.asset(
-        'assets/logo.png',
-        width: 64,
-        height: 64,
-        filterQuality: FilterQuality.medium,
-      ),
+      // Modified(lqm)
+      // applicationIcon: Image.asset(
+      //   'assets/logo.png',
+      //   width: 64,
+      //   height: 64,
+      //   filterQuality: FilterQuality.medium,
+      // ),
       applicationName: AppConfig.applicationName,
     );
   }

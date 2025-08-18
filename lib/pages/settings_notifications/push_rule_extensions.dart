@@ -34,13 +34,15 @@ extension PushRuleExtension on PushRule {
       case '.m.rule.call':
         return l10n.notificationRuleCall;
       case '.m.rule.encrypted_room_one_to_one':
-        return l10n.notificationRuleEncryptedRoomOneToOne;
+        // return l10n.notificationRuleEncryptedRoomOneToOne;
+        return '';
       case '.m.rule.room_one_to_one':
         return l10n.notificationRuleRoomOneToOne;
       case '.m.rule.message':
         return l10n.notificationRuleMessage;
       case '.m.rule.encrypted':
-        return l10n.notificationRuleEncrypted;
+        // return l10n.notificationRuleEncrypted;
+        return '';
       case '.m.rule.room.server_acl':
         return l10n.notificationRuleServerAcl;
       case '.im.vector.jitsi':

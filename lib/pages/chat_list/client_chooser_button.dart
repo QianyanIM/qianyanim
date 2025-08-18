@@ -5,7 +5,7 @@ import 'package:matrix/matrix.dart';
 
 import 'package:fluffychat/config/themes.dart';
 import 'package:fluffychat/l10n/l10n.dart';
-import 'package:fluffychat/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
+// import 'package:fluffychat/widgets/adaptive_dialogs/show_ok_cancel_alert_dialog.dart';
 import 'package:fluffychat/widgets/avatar.dart';
 import 'package:fluffychat/widgets/matrix.dart';
 import '../../utils/fluffy_share.dart';
@@ -17,15 +17,16 @@ class ClientChooserButton extends StatelessWidget {
   const ClientChooserButton(this.controller, {super.key});
 
   List<PopupMenuEntry<Object>> _bundleMenuItems(BuildContext context) {
-    final matrix = Matrix.of(context);
-    final bundles = matrix.accountBundles.keys.toList()
-      ..sort(
-        (a, b) => a!.isValidMatrixId == b!.isValidMatrixId
-            ? 0
-            : a.isValidMatrixId && !b.isValidMatrixId
-                ? -1
-                : 1,
-      );
+    // Modified(lqm)
+    // final matrix = Matrix.of(context);
+    // final bundles = matrix.accountBundles.keys.toList()
+    //   ..sort(
+    //     (a, b) => a!.isValidMatrixId == b!.isValidMatrixId
+    //         ? 0
+    //         : a.isValidMatrixId && !b.isValidMatrixId
+    //             ? -1
+    //             : 1,
+    //   );
     return <PopupMenuEntry<Object>>[
       PopupMenuItem(
         value: SettingsAction.newGroup,
@@ -57,16 +58,16 @@ class ClientChooserButton extends StatelessWidget {
           ],
         ),
       ),
-      PopupMenuItem(
-        value: SettingsAction.archive,
-        child: Row(
-          children: [
-            const Icon(Icons.archive_outlined),
-            const SizedBox(width: 18),
-            Text(L10n.of(context).archive),
-          ],
-        ),
-      ),
+      // PopupMenuItem(
+      //   value: SettingsAction.archive,
+      //   child: Row(
+      //     children: [
+      //       const Icon(Icons.archive_outlined),
+      //       const SizedBox(width: 18),
+      //       Text(L10n.of(context).archive),
+      //     ],
+      //   ),
+      // ),
       PopupMenuItem(
         value: SettingsAction.settings,
         child: Row(
@@ -77,65 +78,65 @@ class ClientChooserButton extends StatelessWidget {
           ],
         ),
       ),
-      const PopupMenuDivider(),
-      for (final bundle in bundles) ...[
-        if (matrix.accountBundles[bundle]!.length != 1 ||
-            matrix.accountBundles[bundle]!.single!.userID != bundle)
-          PopupMenuItem(
-            value: null,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  bundle!,
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.titleMedium!.color,
-                    fontSize: 14,
-                  ),
-                ),
-                const Divider(height: 1),
-              ],
-            ),
-          ),
-        ...matrix.accountBundles[bundle]!
-            .whereType<Client>()
-            .where((client) => client.isLogged())
-            .map(
-              (client) => PopupMenuItem(
-                value: client,
-                child: FutureBuilder<Profile?>(
-                  future: client.fetchOwnProfile(),
-                  builder: (context, snapshot) => Row(
-                    children: [
-                      Avatar(
-                        mxContent: snapshot.data?.avatarUrl,
-                        name: snapshot.data?.displayName ??
-                            client.userID!.localpart,
-                        size: 32,
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          snapshot.data?.displayName ??
-                              client.userID!.localpart!,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      IconButton(
-                        icon: const Icon(Icons.edit_outlined),
-                        onPressed: () => controller.editBundlesForAccount(
-                          client.userID,
-                          bundle,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-      ],
+      // const PopupMenuDivider(),
+      // for (final bundle in bundles) ...[
+      //   if (matrix.accountBundles[bundle]!.length != 1 ||
+      //       matrix.accountBundles[bundle]!.single!.userID != bundle)
+      //     PopupMenuItem(
+      //       value: null,
+      //       child: Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         mainAxisSize: MainAxisSize.min,
+      //         children: [
+      //           Text(
+      //             bundle!,
+      //             style: TextStyle(
+      //               color: Theme.of(context).textTheme.titleMedium!.color,
+      //               fontSize: 14,
+      //             ),
+      //           ),
+      //           const Divider(height: 1),
+      //         ],
+      //       ),
+      //     ),
+      //   ...matrix.accountBundles[bundle]!
+      //       .whereType<Client>()
+      //       .where((client) => client.isLogged())
+      //       .map(
+      //         (client) => PopupMenuItem(
+      //           value: client,
+      //           child: FutureBuilder<Profile?>(
+      //             future: client.fetchOwnProfile(),
+      //             builder: (context, snapshot) => Row(
+      //               children: [
+      //                 Avatar(
+      //                   mxContent: snapshot.data?.avatarUrl,
+      //                   name: snapshot.data?.displayName ??
+      //                       client.userID!.localpart,
+      //                   size: 32,
+      //                 ),
+      //                 const SizedBox(width: 12),
+      //                 Expanded(
+      //                   child: Text(
+      //                     snapshot.data?.displayName ??
+      //                         client.userID!.localpart!,
+      //                     overflow: TextOverflow.ellipsis,
+      //                   ),
+      //                 ),
+      //                 const SizedBox(width: 12),
+      //                 IconButton(
+      //                   icon: const Icon(Icons.edit_outlined),
+      //                   onPressed: () => controller.editBundlesForAccount(
+      //                     client.userID,
+      //                     bundle,
+      //                   ),
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      // ],
       // PopupMenuItem(
       //   value: SettingsAction.addAccount,
       //   child: Row(
