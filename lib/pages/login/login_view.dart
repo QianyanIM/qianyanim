@@ -35,10 +35,11 @@ class LoginView extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(text: titleParts.first),
-              TextSpan(
-                text: homeserver,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
+              // Modified(lqm)
+              // TextSpan(
+              //   text: homeserver,
+              //   style: const TextStyle(fontWeight: FontWeight.bold),
+              // ),
               TextSpan(text: titleParts.last),
             ],
           ),
