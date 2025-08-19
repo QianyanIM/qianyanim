@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
@@ -53,9 +55,22 @@ class _TtsPlayerWrapperState extends State<TtsPlayerWrapper> {
 
   Future<void> _initTTS() async {
     // 配置TTS参数
+
+    // 配置 iOS 特定参数
+    if (Platform.isIOS) {
+      await _flutterTts.setSharedInstance(true); // 启用共享实例
+      await _flutterTts.setIosAudioCategory(
+        IosTextToSpeechAudioCategory.playback, // 静音仍然播放
+        [
+          IosTextToSpeechAudioCategoryOptions.allowBluetooth,
+          IosTextToSpeechAudioCategoryOptions.allowBluetoothA2DP,
+        ],
+      );
+    }
+
     // await _flutterTts.setLanguage("zh-CN");
     await _flutterTts.setPitch(1.0);
-    await _flutterTts.setSpeechRate(0.5);
+    await _flutterTts.setSpeechRate(0.53);
   }
 
   Future<void> _speak() async {
